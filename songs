@@ -1,0 +1,16 @@
+from random import randint
+
+songList = ["Beautiful Stranger", "True Blue", "Vogue", "Lucky Star"]
+
+print(songList)
+
+foo = randint(0,len(songList)-1 )
+
+print(foo)
+
+while (songList):
+	foo = randint(0,len(songList)-1 )
+	songOfTheDay = songList[foo]
+	print(songOfTheDay)
+	del songList[foo]
+
