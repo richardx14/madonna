@@ -41,5 +41,7 @@ api.add_resource(Tracks, '/tracks') # Route_2
 api.add_resource(Employees_Name, '/employees/<employee_id>') # Route_3
 api.add_resource(Madonna_Song, '/madonna_song') #Route_4
 
+#if __name__ == '__main__':
+#     app.run(port='5002')
 if __name__ == '__main__':
-     app.run(port='5002')
+     app.run(host='0.0.0.0')
