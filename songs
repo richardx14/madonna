@@ -1,4 +1,5 @@
 from random import randint
+from flask import Flask
 
 songList = ["Beautiful Stranger", "True Blue", "Vogue", "Lucky Star"]
 
@@ -13,4 +14,32 @@ while (songList):
 	songOfTheDay = songList[foo]
 	print(songOfTheDay)
 	del songList[foo]
+
+songlistFunction = ["Borderline", "Express Yourself", "Hanky Panky", "Holiday", "Music", "Justify My Love"]
+
+def getASong():
+
+	print("Getting a song.")
+
+	if songlistFunction:
+		foo2 = randint(0,len(songlistFunction)-1 )
+		print("Song of the day is " + songlistFunction[foo2] + ".")
+		del songlistFunction[foo2]
+	else:
+		print("Madonna has run out of songs!")
+
+getASong()
+getASong()
+getASong()
+getASong()
+getASong()
+getASong()
+getASong()
+getASong()
+
+
+
+
+
+
 
