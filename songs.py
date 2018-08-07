@@ -20,6 +20,12 @@ def getASong():
 		print("Madonna has run out of songs!")
 		return("Madonna has run out of songs!")
 
+def getAllSongs():
+
+	print("Getting ALL songs")
+
+	return(createSongList())
+
 def createSongList():
 
 	songs = [
@@ -124,8 +130,6 @@ def createSongList():
 def storeASong (song):
 	storedSongs = []
 	storedSongs.append(song)
-
-
 
 
 
