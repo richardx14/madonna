@@ -1,4 +1,4 @@
-from madynamodb import createTable, deleteTable, createItem, getItem
+from madynamodb import createTable, deleteTable, putItem, getItem
 
 # aws dynamodb list-tables --endpoint-url=http://localhost:8000
 
@@ -6,9 +6,13 @@ from madynamodb import createTable, deleteTable, createItem, getItem
 
 # deleteTable("madonnaSongs", "eu-west-2", "http://localhost:8000" )
 
-createItem("madonnaSongs", "eu-west-2", "http://localhost:8000", "test-item")
+putItem("madonnaSongs", "eu-west-2", "http://localhost:8000", "test-item-4")
 
-getItem("madonnaSongs", "eu-west-2", "http://localhost:8000", "test-item")
+putItem("madonnaSongs", "eu-west-2", "http://localhost:8000", "test-item-5")
+
+putItem("madonnaSongs", "eu-west-2", "http://localhost:8000", "test-item-6")
+
+getItem("madonnaSongs", "eu-west-2", "http://localhost:8000", "test-item-6")
 
 
 
