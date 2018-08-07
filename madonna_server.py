@@ -5,16 +5,18 @@ from json import dumps
 from flask_jsonpify import jsonify
 from random import randint
 
+from songs import getASong
+
 app = Flask(__name__)
 api = Api(app)
 
 
 class Madonna_Song(Resource):
     def get(self):
-        songs = ["Express Yourself", "La Isla Bonita", "Like a Prayer"]
-        foo = randint(0,len(songs)-1 )
-        return jsonify(songs[foo])
 
+        song = getASong()
+
+        return jsonify(song)
 
 api.add_resource(Madonna_Song, '/madonna_song') #Route_4
 

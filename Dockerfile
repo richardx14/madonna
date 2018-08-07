@@ -2,7 +2,7 @@ FROM python:3
 
 MAINTAINER richardx14 <richard@dicecentre.org>
 
-ENV REFRESHED_AT 2018-08-04:4
+ENV REFRESHED_AT 2018-08-05:1
 
 RUN pip3 install flask flask-jsonpify flask-sqlalchemy flask-restful
 
