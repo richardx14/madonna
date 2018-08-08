@@ -1,4 +1,5 @@
 from random import randint
+from dynamodb.madynamodb.madynamodb import *
 
 # songs = ["Beautiful Stranger", "True Blue", "Vogue", "Lucky Star"]
 
@@ -13,7 +14,7 @@ def getASong():
 		songOfTheDay = songList[foo2]
 		print("Song of the day is " + songOfTheDay + ".")
 		del songList[foo2]
-		#print("remaining songs = " + str(songList))
+		putItem("madonnaSongs", "eu-west-2", "richardx14-3", "http://localhost:8000")
 		return(songOfTheDay)
 
 	else:

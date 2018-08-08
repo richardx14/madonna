@@ -171,3 +171,18 @@ def updateItem(table, region, userID, songs, dayCount, endpoint = '' ):
     print("UpdateItem succeeded:")
     print(json.dumps(response, indent=4, cls=DecimalEncoder))
 
+def tableExists(table, region, endpoint = ''):
+
+    if(endpoint):
+        dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
+    else:
+        dynamodb = boto3.resource('dynamodb', region_name=region)
+
+    dynamodb_client = boto3.client('dynamodb')
+
+    response = dynamodb_client.describe_table(TableName = table)
+
+    if (response):
+        print("Table exists")
+    else:
+        print("Table does not exist")
