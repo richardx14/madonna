@@ -89,3 +89,62 @@ def getItem(table, region, endpoint, itemID):
         item = response['Item']
         print("GetItem succeeded:")
         print(json.dumps(item, indent=4, cls=DecimalEncoder))
+
+def queryItem(table, region, endpoint, user):
+
+    dynamodb = boto3.resource("dynamodb", region_name=region, endpoint_url=endpoint)
+
+    table = dynamodb.Table(table)
+
+    response = table.query(
+        KeyConditionExpression=Key('userID').eq(user)
+    )
+
+    for i in response['Items']:
+        print(i['userID'])
+
+    print(response['Items'])
+
+    return(response['Items'])
+
+
+def deleteItem(table, region, endpoint, user):
+
+    dynamodb = boto3.resource("dynamodb", region_name=region, endpoint_url=endpoint)
+
+    table = dynamodb.Table(table)
+
+    response = table.delete_item(
+        Key={
+            'userID': user,
+        }
+    )
+
+    print(json.dumps(response, indent=4, cls=DecimalEncoder))
+
+def updateItem(table, region, endpoint, user, songs, dayCount):
+
+    dynamodb = boto3.resource("dynamodb", region_name=region, endpoint_url=endpoint)
+
+    table = dynamodb.Table(table)
+
+    userID = user
+
+    response = table.update_item(
+        Key={
+            'userID': user,
+        },
+        UpdateExpression="set info.songsSoFar = :s, info.songCount=:c",
+        ExpressionAttributeValues={
+            ':c': decimal.Decimal(dayCount),
+            ':s': songs
+        },
+        ReturnValues="UPDATED_NEW"
+    )
+
+    print("UpdateItem succeeded:")
+    print(json.dumps(response, indent=4, cls=DecimalEncoder))
+
+
+
+
