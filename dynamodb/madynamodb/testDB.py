@@ -2,30 +2,50 @@ from madynamodb import createTable, deleteTable, putItem, getItem, queryItem, de
 
 # aws dynamodb list-tables --endpoint-url=http://localhost:8000
 
-# createTable("madonnaSongs", "eu-west-2", "http://localhost:8000")
+#createTable("madonnaSongs", "eu-west-2", "http://localhost:8000")
 
 # deleteTable("madonnaSongs", "eu-west-2", "http://localhost:8000" )
 
-putItem("madonnaSongs", "eu-west-2", "http://localhost:8000", "test-item-4")
+#deleteTable("madonnaSongs", "eu-west-2", "http://localhost:8000" )
 
-putItem("madonnaSongs", "eu-west-2", "http://localhost:8000", "test-item-5")
+#createTable("madonnaSongs", "eu-west-2", "http://localhost:8000")
 
-putItem("madonnaSongs", "eu-west-2", "http://localhost:8000", "test-item-6")
+putItem("madonnaSongs", "eu-west-2", "richardx14-3", "http://localhost:8000")
 
-getItem("madonnaSongs", "eu-west-2", "http://localhost:8000", "test-item-6")
+#putItem(table, region, userID, endpoint = '' )
 
-queryItem("madonnaSongs", "eu-west-2", "http://localhost:8000", "test-item-4")
+#putItem("madonnaSongs", "eu-west-2", "http://localhost:8000", "test-item-5")
 
-#deleteItem("madonnaSongs", "eu-west-2", "http://localhost:8000", "test-item-4")
+#putItem("madonnaSongs", "eu-west-2", "http://localhost:8000", "test-item-6")
 
-queryItem("madonnaSongs", "eu-west-2", "http://localhost:8000", "test-item-5")
+getItem("madonnaSongs", "eu-west-2", "richardx14-2", "http://localhost:8000")
 
-queryItem("madonnaSongs", "eu-west-2", "http://localhost:8000", "test-itemdsdfsdfasd")
+#def getItem(table, region, userID, endpoint = ''):
 
-updateItem("madonnaSongs", "eu-west-2", "http://localhost:8000", "test-item-5", "Music etc", 23)
+queryItem("madonnaSongs", "eu-west-2", "test-item-4","http://localhost:8000")
 
-queryItem("madonnaSongs", "eu-west-2", "http://localhost:8000", "test-item-5")
+queryItem("madonnaSongs", "eu-west-2", "richardx14-1","http://localhost:8000")
 
+#def queryItem(table, region, userID, endpoint = '' ):
 
+deleteItem("madonnaSongs", "eu-west-2", "richardx14-1", "http://localhost:8000")
 
+#def deleteItem(table, region, userID, endpoint = ''):
 
+queryItem("madonnaSongs", "eu-west-2", "richardx14-1","http://localhost:8000")
+
+#queryItem("madonnaSongs", "eu-west-2", "http://localhost:8000", "test-item-5")
+
+#queryItem("madonnaSongs", "eu-west-2", "http://localhost:8000", "test-itemdsdfsdfasd")
+
+updateItem("madonnaSongs", "eu-west-2", "richardx14-2", "Hanky Panky etc", 24, "http://localhost:8000")
+
+getItem("madonnaSongs", "eu-west-2", "richardx14-2", "http://localhost:8000")
+
+getItem("madonnaSongs", "eu-west-2", "richardx14-2")
+
+#queryItem("madonnaSongs", "eu-west-2", "http://localhost:8000", "test-item-5")
+
+#deleteTable("madonnaSongs", "eu-west-2", "http://localhost:8000" )
+
+#createTable("madonnaSongs", "eu-west-2", "http://localhost:8000")

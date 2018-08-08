@@ -16,8 +16,13 @@ class DecimalEncoder(json.JSONEncoder):
         return super(DecimalEncoder, self).default(o)
 
 
-def createTable(table, region, endpoint):
-    dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
+def createTable(table, region, endpoint = '' ):
+
+    if(endpoint):
+        dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
+    else:
+        dynamodb = boto3.resource('dynamodb', region_name=region)
+
 
     table = dynamodb.create_table(
         TableName=table,
@@ -43,24 +48,32 @@ def createTable(table, region, endpoint):
     print("Table status:", table.table_status)
 
 
-def deleteTable(table, region, endpoint):
+def deleteTable(table, region, endpoint = '' ):
 
-    dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
+    if(endpoint):
+        dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
+    else:
+        dynamodb = boto3.resource('dynamodb', region_name=region)
 
     table = dynamodb.Table(table)
 
     table.delete()
 
+    print("Table deleted.")
 
-def putItem(table, region, endpoint, itemID):
 
-    dynamodb = boto3.resource('dynamodb', region_name='eu-west-2', endpoint_url="http://localhost:8000")
+def putItem(table, region, userID, endpoint = '' ):
+
+    if(endpoint):
+        dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
+    else:
+        dynamodb = boto3.resource('dynamodb', region_name=region)
 
     table = dynamodb.Table(table)
 
     response = table.put_item(
         Item={
-            'userID': itemID,
+            'userID': userID,
                     'info': {
                         'songsSoFar':"Vogue etc.",
                         'songCount': decimal.Decimal(0)
@@ -71,16 +84,19 @@ def putItem(table, region, endpoint, itemID):
     print("PutItem succeeded:")
     print(json.dumps(response, indent=4, cls=DecimalEncoder))
 
-def getItem(table, region, endpoint, itemID):
+def getItem(table, region, userID, endpoint = ''):
 
-    dynamodb = boto3.resource("dynamodb", region_name=region, endpoint_url=endpoint)
+    if(endpoint):
+        dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
+    else:
+        dynamodb = boto3.resource('dynamodb', region_name=region)
 
     table = dynamodb.Table(table)
 
     try:
         response = table.get_item(
             Key={
-                'userID': itemID
+                'userID': userID
             }
         )
     except ClientError as e:
@@ -90,14 +106,18 @@ def getItem(table, region, endpoint, itemID):
         print("GetItem succeeded:")
         print(json.dumps(item, indent=4, cls=DecimalEncoder))
 
-def queryItem(table, region, endpoint, user):
 
-    dynamodb = boto3.resource("dynamodb", region_name=region, endpoint_url=endpoint)
+def queryItem(table, region, userID, endpoint = '' ):
+
+    if(endpoint):
+        dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
+    else:
+        dynamodb = boto3.resource('dynamodb', region_name=region)
 
     table = dynamodb.Table(table)
 
     response = table.query(
-        KeyConditionExpression=Key('userID').eq(user)
+        KeyConditionExpression=Key('userID').eq(userID)
     )
 
     for i in response['Items']:
@@ -108,31 +128,37 @@ def queryItem(table, region, endpoint, user):
     return(response['Items'])
 
 
-def deleteItem(table, region, endpoint, user):
+def deleteItem(table, region, userID, endpoint = ''):
 
-    dynamodb = boto3.resource("dynamodb", region_name=region, endpoint_url=endpoint)
+    if(endpoint):
+        dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
+    else:
+        dynamodb = boto3.resource('dynamodb', region_name=region)
 
     table = dynamodb.Table(table)
 
     response = table.delete_item(
         Key={
-            'userID': user,
+            'userID': userID,
         }
     )
 
     print(json.dumps(response, indent=4, cls=DecimalEncoder))
 
-def updateItem(table, region, endpoint, user, songs, dayCount):
+def updateItem(table, region, userID, songs, dayCount, endpoint = '' ):
 
-    dynamodb = boto3.resource("dynamodb", region_name=region, endpoint_url=endpoint)
+    if(endpoint):
+        dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
+    else:
+        dynamodb = boto3.resource('dynamodb', region_name=region)
 
     table = dynamodb.Table(table)
 
-    userID = user
+    userID = userID
 
     response = table.update_item(
         Key={
-            'userID': user,
+            'userID': userID,
         },
         UpdateExpression="set info.songsSoFar = :s, info.songCount=:c",
         ExpressionAttributeValues={
@@ -144,7 +170,4 @@ def updateItem(table, region, endpoint, user, songs, dayCount):
 
     print("UpdateItem succeeded:")
     print(json.dumps(response, indent=4, cls=DecimalEncoder))
-
-
-
 
