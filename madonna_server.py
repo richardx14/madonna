@@ -10,6 +10,58 @@ from songs import getASong, getAllSongs
 app = Flask(__name__)
 api = Api(app)
 
+# n API's
+
+# get_all_Songs - shows all available songs
+# get_a_Song - gets a song of the day (That has not been shown before)
+# get_all_my_songs - shows all of my songs to date
+# get_my_day_count - show my day count
+# reset_my_songs - delete all trace of me so I can start again
+
+class Get_A_Song(Resource):
+	def get(self):
+
+		song = getASong()
+
+		# get user id
+        # provide song
+        # update songs to date and day count
+
+		return jsonify(song)
+
+
+class Get_All_Songs(Resource):
+	def get(self):
+
+		song = getASong()
+
+		return jsonify(song)
+
+
+class Get_All_My_Songs(Resource):
+	def get(self):
+
+		song = getASong()
+
+		return jsonify(song)
+
+
+class Get_My_Day_Count(Resource):
+	def get(self):
+
+		song = getASong()
+
+		return jsonify(song)
+
+
+class Reset_My_Songs(Resource):
+	def get(self):
+
+		song = getASong()
+
+		return jsonify(song)
+
+# Old API's below
 
 class Madonna_Song(Resource):
     def get(self):
@@ -29,8 +81,27 @@ class All_Madonna_Songs(Resource):
 
 		return jsonify(getAllSongs())
 
+api.add_resource(Get_All_Songs, '/get_all_songs')
+api.add_resource(Get_A_Song, '/get_a_song')
+api.add_resource(Get_All_My_Songs, '/get_all_my_songs')
+api.add_resource(Get_My_Day_Count, '/get_my_day_count')
+api.add_resource(Reset_My_Songs, '/reset_my_songs')
+
+
+
+# get_all_Songs - shows all available songs
+# get_a_song - gets a song of the day (That has not been shown before)
+# get_all_my_songs - shows all of my songs to date
+# get_my_day_count - show my day count
+# reset_my_songs - delete all trace of me so I can start again
+
+# Old API's below
+
 api.add_resource(Madonna_Song, '/madonna_song') #Route_4
 api.add_resource(All_Madonna_Songs, '/all_madonna_songs')
+
+
+
 
 #if __name__ == '__main__':
 #     app.run(port='5002')

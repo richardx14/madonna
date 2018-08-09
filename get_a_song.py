@@ -1,32 +1,18 @@
+from __future__ import print_function # Python 2/3 compatibility
 from random import randint
+import boto3
+import json
+import decimal
+from boto3.dynamodb.conditions import Key, Attr
+from botocore.exceptions import ClientError
 from dynamodb.madynamodb.madynamodb import *
 
-# songs = ["Beautiful Stranger", "True Blue", "Vogue", "Lucky Star"]
-
-def getASong():
-
-	print("Getting a song.")
-
-	songList = createSongList()
-
-	if songList:
-		foo2 = randint(0,len(songList)-1 )
-		songOfTheDay = songList[foo2]
-		print("Song of the day is " + songOfTheDay + ".")
-
-		putItem("madonnaSongs", "eu-west-2", "richardx14-3", "http://localhost:8000")
-		
-		return(songOfTheDay)
-
-	else:
-		print("Madonna has run out of songs!")
-		return("Madonna has run out of songs!")
-
-def getAllSongs():
-
-	print("Getting ALL songs")
-
-	return(createSongList())
+# get a song
+# get list from item
+# add song to list
+# increase day count TO DO
+# write item back to db
+# show db item
 
 def createSongList():
 
@@ -129,9 +115,75 @@ def createSongList():
 
 	return(songs)
 
-def storeASong (song):
-	storedSongs = []
-	storedSongs.append(song)
+def getASong():
+
+	print("Getting a song.")
+
+	songList = createSongList()
+
+	if songList:
+		foo2 = randint(0,len(songList)-1 )
+		songOfTheDay = songList[foo2]
+		print("Song of the day is " + songOfTheDay + ".")
+
+		putItem("madonnaSongs", "eu-west-2", "richardx14-3", "http://localhost:8000")
+		
+		return(songOfTheDay)
+
+	else:
+		print ("Madonna has run out of songs!")
+		return ("Madonna has run out of songs!")
+
+def setUpDB(region, endpoint=''):
+	if(endpoint):
+		dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
+	else:
+		dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
+
+	return(dynamodb)
+
+# variables
+
+region = "eu-west-2"
+table = "previousSongs"
+endpoint = "http://localhost:8000"
+userID = "richardx14-1" # need to look this up in future
+
+dynamodb = setUpDB(region, endpoint)
+
+#foo = getItem(table, region, userID, endpoint)
+#item = getItem(table, region, userID, endpoint)['Item']
+
+#songs = item['songSoFar']
+
+songs = getItem(table, region, userID, endpoint)['Item']['songSoFar']
+
+song = getASong()
+
+songs.append(song)
+
+# now put item back
+
+table = dynamodb.Table(table)
+
+response = table.put_item(
+	Item={
+		'userID': userID,
+		'dayCount': 0,
+		'songSoFar': songs
+		}
+	)
+
+print("PutItem succeeded:")
+
+
+
+
+#print(json.dumps(response, indent=4, cls=DecimalEncoder))
+
+# test
+
+foo = getItem("previousSongs", "eu-west-2", "richardx14-1", "http://localhost:8000")
 
 
 

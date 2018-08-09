@@ -40,7 +40,7 @@ from madynamodb import *
 
 #updateItem("madonnaSongs", "eu-west-2", "richardx14-2", "Hanky Panky etc", 24, "http://localhost:8000")
 
-getItem("madonnaSongs", "eu-west-2", "richardx14-2", "http://localhost:8000")
+#getItem("madonnaSongs", "eu-west-2", "richardx14-2", "http://localhost:8000")
 
 #getItem("madonnaSongs", "eu-west-2", "richardx14-2")
 
@@ -60,28 +60,36 @@ getItem("madonnaSongs", "eu-west-2", "richardx14-2", "http://localhost:8000")
 
 #createTable2("madonnaSongsTable2", "eu-west-2", "http://localhost:8000")
 
-putItem2("madonnaSongs", "eu-west-2", "richardx14-3", "http://localhost:8000")
+#putItem2("madonnaSongs", "eu-west-2", "richardx14-3", "http://localhost:8000")
 
-foo = getItem("madonnaSongs", "eu-west-2", "richardx14-3", "http://localhost:8000")
-foo2 = getItem2("madonnaSongs", "eu-west-2", "richardx14-3", "http://localhost:8000")
+#foo = getItem("madonnaSongs", "eu-west-2", "richardx14-3", "http://localhost:8000")
+#foo2 = getItem2("madonnaSongs", "eu-west-2", "richardx14-3", "http://localhost:8000")
 
 #foo = getItem2("madonnaSongs", "eu-west-2", "richardx14-3", "http://localhost:8000")
 
 #x = json.loads(getItem2("madonnaSongs", "eu-west-2", "richardx14-3", "http://localhost:8000"))
 
-print(foo)
-print(foo2)
+#print(foo)
+#print(foo2)
 
-item = foo['Item']
+# how to work with items and attributes 
+#item = foo['Item']
+#songs = item['songSoFar']
+#print(songs)
+#eroticaSong = "Erotica"
+#if eroticaSong in songs:
+#	print("found it")
+#else:
+#	print("not found it")
 
-songs = item['songSoFar']
+# new get a song set up - create table and put item
 
-print(songs)
+#createTable('previousSongs', "eu-west-2", "http://localhost:8000" )
 
-eroticaSong = "Erotica"
+putItem2("previousSongs", "eu-west-2", "richardx14-1", "http://localhost:8000")
+foo = getItem("previousSongs", "eu-west-2", "richardx14-1", "http://localhost:8000")
 
-if eroticaSong in songs:
-	print("found it")
-else:
-	print("not found it")
+
+
+
 

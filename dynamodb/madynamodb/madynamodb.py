@@ -137,7 +137,7 @@ def putItem2(table, region, userID, endpoint = '' ):
     response = table.put_item(
         Item={
             'userID': userID,
-            'dayCount': 24,
+            'dayCount': 0,
             'songSoFar': ["Erotica", "Music", "Vogue"] 
             }
         )
