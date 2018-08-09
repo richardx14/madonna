@@ -16,6 +16,10 @@ class Madonna_Song(Resource):
 
         song = getASong()
 
+        # get user id
+        # provide song
+        # update songs to date and day count
+
         return jsonify(song)
 
 class All_Madonna_Songs(Resource):

@@ -48,6 +48,46 @@ def createTable(table, region, endpoint = '' ):
     print("Table status:", table.table_status)
 
 
+def createTable2(table, region, endpoint = '' ):
+
+    if(endpoint):
+        dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
+    else:
+        dynamodb = boto3.resource('dynamodb', region_name=region)
+
+
+    table = dynamodb.create_table(
+        TableName=table,
+        KeySchema=[
+            {
+                'AttributeName': 'userID',
+                'KeyType': 'HASH'  #Partition key
+            }
+        ],
+        AttributeDefinitions=[
+            {
+                'AttributeName': 'userID',
+                'AttributeType': 'S'
+            },
+            {
+                'AttributeName': 'songSoFar',
+                'AttributeType': 'S'
+            },
+            {
+                'AttributeName': 'dayCount',
+                'AttributeType': 'N'
+            }
+
+        ],
+        ProvisionedThroughput={
+            'ReadCapacityUnits': 10,
+            'WriteCapacityUnits': 10
+        }
+    )
+
+    print("Table status:", table.table_status)
+
+
 def deleteTable(table, region, endpoint = '' ):
 
     if(endpoint):
@@ -84,6 +124,27 @@ def putItem(table, region, userID, endpoint = '' ):
     print("PutItem succeeded:")
     print(json.dumps(response, indent=4, cls=DecimalEncoder))
 
+
+def putItem2(table, region, userID, endpoint = '' ):
+
+    if(endpoint):
+        dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
+    else:
+        dynamodb = boto3.resource('dynamodb', region_name=region)
+
+    table = dynamodb.Table(table)
+
+    response = table.put_item(
+        Item={
+            'userID': userID,
+            'dayCount': 24,
+            'songSoFar': ["Erotica", "Music", "Vogue"] 
+            }
+        )
+
+    print("PutItem succeeded:")
+    print(json.dumps(response, indent=4, cls=DecimalEncoder))
+
 def getItem(table, region, userID, endpoint = ''):
 
     if(endpoint):
@@ -105,6 +166,33 @@ def getItem(table, region, userID, endpoint = ''):
         item = response['Item']
         print("GetItem succeeded:")
         print(json.dumps(item, indent=4, cls=DecimalEncoder))
+
+    return(response)
+
+def getItem2(table, region, userID, endpoint = ''):
+
+    if(endpoint):
+        dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
+    else:
+        dynamodb = boto3.resource('dynamodb', region_name=region)
+
+    table = dynamodb.Table(table)
+
+    try:
+        response = table.get_item(
+            Key={
+                'userID': userID
+            },
+            ProjectionExpression =  "songSoFar"
+        )
+    except ClientError as e:
+        print(e.response['Error']['Message'])
+    else:
+        item = response['Item']
+        print("GetItem2 succeeded:")
+        print(json.dumps(item, indent=4, cls=DecimalEncoder))
+
+    return(response)
 
 
 def queryItem(table, region, userID, endpoint = '' ):
