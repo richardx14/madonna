@@ -5,7 +5,7 @@ from json import dumps
 from flask_jsonpify import jsonify
 from random import randint
 
-from songs import getASong, getAllSongs
+from get_a_song import *
 
 app = Flask(__name__)
 api = Api(app)
@@ -33,9 +33,9 @@ class Get_A_Song(Resource):
 class Get_All_Songs(Resource):
 	def get(self):
 
-		song = getASong()
+		songs = getAllSongs()
 
-		return jsonify(song)
+		return jsonify(songs)
 
 
 class Get_All_My_Songs(Resource):
@@ -97,11 +97,8 @@ api.add_resource(Reset_My_Songs, '/reset_my_songs')
 
 # Old API's below
 
-api.add_resource(Madonna_Song, '/madonna_song') #Route_4
-api.add_resource(All_Madonna_Songs, '/all_madonna_songs')
-
-
-
+#api.add_resource(Madonna_Song, '/madonna_song') #Route_4
+#api.add_resource(All_Madonna_Songs, '/all_madonna_songs')
 
 #if __name__ == '__main__':
 #     app.run(port='5002')

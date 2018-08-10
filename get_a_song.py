@@ -126,12 +126,15 @@ def getASong():
 		songOfTheDay = songList[foo2]
 		print("Song of the day is " + songOfTheDay + ".")
 
-		putItem("madonnaSongs", "eu-west-2", "richardx14-3", "http://localhost:8000")
+		# write to db.
+
+		addASong("richardx14-1", songOfTheDay)
+
+		#putItem("madonnaSongs", "eu-west-2", "richardx14-3", "http://localhost:8000")
 		
 		return(songOfTheDay)
 
 	else:
-		print ("Madonna has run out of songs!")
 		return ("Madonna has run out of songs!")
 
 def setUpDB(region, endpoint=''):
@@ -142,49 +145,52 @@ def setUpDB(region, endpoint=''):
 
 	return(dynamodb)
 
+
+def addASong(user, song):
+
 # variables
 
-region = "eu-west-2"
-table = "previousSongs"
-endpoint = "http://localhost:8000"
-userID = "richardx14-1" # need to look this up in future
+	region = "eu-west-2"
+	table = "previousSongs"
+	endpoint = "http://localhost:8000"
+	#userID = "richardx14-1" # need to look this up in future
 
-dynamodb = setUpDB(region, endpoint)
+	dynamodb = setUpDB(region, endpoint)
 
-#foo = getItem(table, region, userID, endpoint)
-#item = getItem(table, region, userID, endpoint)['Item']
+	#foo = getItem(table, region, userID, endpoint)
+	#item = getItem(table, region, userID, endpoint)['Item']
 
-#songs = item['songSoFar']
+	#songs = item['songSoFar']
 
-songs = getItem(table, region, userID, endpoint)['Item']['songSoFar']
+	songs = getItem(table, region, user, endpoint)['Item']['songSoFar']
 
-song = getASong()
+	songs.append(song)
 
-songs.append(song)
+	# now put item back
 
-# now put item back
+	table = dynamodb.Table(table)
 
-table = dynamodb.Table(table)
+	response = table.put_item(
+		Item={
+			'userID': user,
+			'dayCount': 0,
+			'songSoFar': songs
+			}
+		)
 
-response = table.put_item(
-	Item={
-		'userID': userID,
-		'dayCount': 0,
-		'songSoFar': songs
-		}
-	)
+	print("addASong succeeded:")
 
-print("PutItem succeeded:")
+	#print(json.dumps(response, indent=4, cls=DecimalEncoder))
 
+	# test
 
+	foo = getItem("previousSongs", "eu-west-2", "richardx14-1", "http://localhost:8000")
 
+def getAllSongs():
 
-#print(json.dumps(response, indent=4, cls=DecimalEncoder))
+	print("Getting all songs.")
 
-# test
+	songList = createSongList()
 
-foo = getItem("previousSongs", "eu-west-2", "richardx14-1", "http://localhost:8000")
-
-
-
+	return(songList)
 

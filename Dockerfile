@@ -2,9 +2,11 @@ FROM python:3
 
 MAINTAINER richardx14 <richard@dicecentre.org>
 
-ENV REFRESHED_AT 2018-08-08:1
+ENV REFRESHED_AT 2018-08-10:1
 
 RUN pip3 install flask flask-jsonpify flask-sqlalchemy flask-restful
+
+RUN pip3 install boto3
 
 ADD . /60daysofmadonna
 
