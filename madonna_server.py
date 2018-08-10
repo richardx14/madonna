@@ -30,7 +30,7 @@ class DecimalEncoder(json.JSONEncoder):
 class Get_A_Song(Resource):
 	def get(self):
 
-		song = getASong()
+		song = getASong("richardx14-1")
 
 		# get user id
         # provide song

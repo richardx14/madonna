@@ -115,11 +115,38 @@ def createSongList():
 
 	return(songs)
 
-def getASong():
+def getASong(user):
+
+	region = "eu-west-2"
+	table = "previousSongs"
+	endpoint = "http://localhost:8000"
+	#userID = "richardx14-1" # need to look this up in future
+
+	dynamodb = setUpDB(region, endpoint)
 
 	print("Getting a song.")
 
 	songList = createSongList()
+
+	print("Song list before")
+
+	# get previous songs
+
+	songSoFar = getItem(table, region, user, endpoint)['Item']['songSoFar']
+
+	print("Songs so far")
+	print(songSoFar)
+
+	# remove from songList
+
+	for song in songSoFar:
+		print(song)
+		songList.remove(song)
+
+	print("Songs left")
+	print(songList)
+
+	# from what is left, take one at random
 
 	if songList:
 		foo2 = randint(0,len(songList)-1 )
