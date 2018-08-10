@@ -194,3 +194,51 @@ def getAllSongs():
 
 	return(songList)
 
+def getAllMySongs(user):
+
+# variables
+
+	region = "eu-west-2"
+	table = "previousSongs"
+	endpoint = "http://localhost:8000"
+	#userID = "richardx14-1" # need to look this up in future
+
+	dynamodb = setUpDB(region, endpoint)
+
+	#foo = getItem(table, region, userID, endpoint)
+	#item = getItem(table, region, userID, endpoint)['Item']
+
+	#songs = item['songSoFar']
+
+	allMySongs = getItem(table, region, user, endpoint)['Item']['songSoFar']
+
+	print("get all my songs succeeded:")
+
+	return(allMySongs)
+
+def resetMySongs(user):
+
+# variables
+
+	region = "eu-west-2"
+	table = "previousSongs"
+	endpoint = "http://localhost:8000"
+	#userID = "richardx14-1" # need to look this up in future
+
+	dynamodb = setUpDB(region, endpoint)
+
+	table = dynamodb.Table(table)
+
+	response = table.delete_item(
+		Key={
+			'userID': user,
+		}
+	)
+
+	print(json.dumps(response, indent=4, cls=DecimalEncoder))
+
+	print("Reset my songs succeeded:")
+
+
+
+

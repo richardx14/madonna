@@ -41,9 +41,9 @@ class Get_All_Songs(Resource):
 class Get_All_My_Songs(Resource):
 	def get(self):
 
-		song = getASong()
+		songs = getAllMySongs("richardx14-1")
 
-		return jsonify(song)
+		return jsonify(songs)
 
 
 class Get_My_Day_Count(Resource):
@@ -57,9 +57,7 @@ class Get_My_Day_Count(Resource):
 class Reset_My_Songs(Resource):
 	def get(self):
 
-		song = getASong()
-
-		return jsonify(song)
+		song = resetMySongs("richardx14-1")
 
 # Old API's below
 
