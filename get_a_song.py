@@ -252,6 +252,28 @@ def resetMySongs(user):
 
 	print("Reset my songs succeeded:")
 
+def createNewUser ():
 
+# variables
 
+	region = "eu-west-2"
+	table = "previousSongs"
+	endpoint = "http://localhost:8000"
+	user = "richardx14-1" # need to look this up in future
+
+	dynamodb = setUpDB(region, endpoint)
+
+	table = dynamodb.Table(table)
+
+	response = table.put_item(
+		Item={
+			'userID': user,
+			'dayCount': 0,
+			'songSoFar': []
+			}
+		)
+
+	print("Create user " + user + " succeeded.")
+
+	return(response)
 

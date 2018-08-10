@@ -87,12 +87,18 @@ class All_Madonna_Songs(Resource):
 
 		return jsonify(getAllSongs())
 
+class Create_New_User(Resource):
+
+	def get(self):
+
+		return jsonify(createNewUser())
+
 api.add_resource(Get_All_Songs, '/get_all_songs')
 api.add_resource(Get_A_Song, '/get_a_song')
 api.add_resource(Get_All_My_Songs, '/get_all_my_songs')
 api.add_resource(Get_My_Day_Count, '/get_my_day_count')
 api.add_resource(Reset_My_Songs, '/reset_my_songs')
-
+api.add_resource(Create_New_User, '/create_new_user')
 
 
 # get_all_Songs - shows all available songs
