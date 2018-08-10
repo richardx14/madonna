@@ -141,7 +141,7 @@ def setUpDB(region, endpoint=''):
 	if(endpoint):
 		dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
 	else:
-		dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
+		dynamodb = boto3.resource('dynamodb', region_name=region)
 
 	return(dynamodb)
 
@@ -157,14 +157,15 @@ def addASong(user, song):
 
 	dynamodb = setUpDB(region, endpoint)
 
-	#foo = getItem(table, region, userID, endpoint)
-	#item = getItem(table, region, userID, endpoint)['Item']
-
-	#songs = item['songSoFar']
+	# sort out songs
 
 	songs = getItem(table, region, user, endpoint)['Item']['songSoFar']
 
 	songs.append(song)
+
+	# sort out dayCount
+
+	dayCount = getItem(table, region, user, endpoint)['Item']['dayCount'] + 1
 
 	# now put item back
 
@@ -173,7 +174,7 @@ def addASong(user, song):
 	response = table.put_item(
 		Item={
 			'userID': user,
-			'dayCount': 0,
+			'dayCount': dayCount,
 			'songSoFar': songs
 			}
 		)
@@ -205,16 +206,28 @@ def getAllMySongs(user):
 
 	dynamodb = setUpDB(region, endpoint)
 
-	#foo = getItem(table, region, userID, endpoint)
-	#item = getItem(table, region, userID, endpoint)['Item']
-
-	#songs = item['songSoFar']
-
 	allMySongs = getItem(table, region, user, endpoint)['Item']['songSoFar']
 
 	print("get all my songs succeeded:")
 
 	return(allMySongs)
+
+def getMyDayCount(user):
+
+# variables
+
+	region = "eu-west-2"
+	table = "previousSongs"
+	endpoint = "http://localhost:8000"
+	#userID = "richardx14-1" # need to look this up in future
+
+	dynamodb = setUpDB(region, endpoint)
+
+	dayCount = getItem(table, region, user, endpoint)['Item']['dayCount']
+
+	print("get my day count succeeded:")
+
+	return(str(dayCount))
 
 def resetMySongs(user):
 

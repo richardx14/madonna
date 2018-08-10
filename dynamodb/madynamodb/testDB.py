@@ -87,7 +87,28 @@ from madynamodb import *
 #createTable('previousSongs', "eu-west-2", "http://localhost:8000" )
 
 putItem2("previousSongs", "eu-west-2", "richardx14-1", "http://localhost:8000")
-foo = getItem("previousSongs", "eu-west-2", "richardx14-1", "http://localhost:8000")
+
+#foo = getItem("previousSongs", "eu-west-2", "richardx14-1", "http://localhost:8000")
+#item = foo['Item']
+#dayCount = item['dayCount']
+#print(dayCount)
+
+#dynamodb = boto3.resource('dynamodb', region_name="eu-west-2", endpoint_url="http://localhost:8000")
+
+#table = dynamodb.Table("previousSongs")
+
+#response = table.put_item(
+#	Item={
+#		'userID': "richardx14-1",
+#		'dayCount': 1
+#		}
+#	)
+
+#foo = getItem("previousSongs", "eu-west-2", "richardx14-1", "http://localhost:8000")
+#item = foo['Item']
+#dayCount = item['dayCount']
+#print(dayCount)
+
 
 
 

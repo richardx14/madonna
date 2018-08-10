@@ -10,6 +10,15 @@ from get_a_song import *
 app = Flask(__name__)
 api = Api(app)
 
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, decimal.Decimal):
+            if abs(o) % 1 > 0:
+                return float(o)
+            else:
+                return int(o)
+        return super(DecimalEncoder, self).default(o)
+
 # n API's
 
 # get_all_Songs - shows all available songs
@@ -49,10 +58,9 @@ class Get_All_My_Songs(Resource):
 class Get_My_Day_Count(Resource):
 	def get(self):
 
-		song = getASong()
+		dayCount = getMyDayCount("richardx14-1")
 
-		return jsonify(song)
-
+		return (dayCount)
 
 class Reset_My_Songs(Resource):
 	def get(self):
@@ -93,12 +101,8 @@ api.add_resource(Reset_My_Songs, '/reset_my_songs')
 # get_my_day_count - show my day count
 # reset_my_songs - delete all trace of me so I can start again
 
-# Old API's below
-
-#api.add_resource(Madonna_Song, '/madonna_song') #Route_4
-#api.add_resource(All_Madonna_Songs, '/all_madonna_songs')
-
 #if __name__ == '__main__':
 #     app.run(port='5002')
+
 if __name__ == '__main__':
      app.run(host='0.0.0.0')
