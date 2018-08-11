@@ -115,11 +115,20 @@ def createSongList():
 
 	return(songs)
 
+def getEndpoint():
+
+	#endpoint_url = ''
+	endpoint_url = "http://localhost:8000"
+
+	return(endpoint_url)
+
 def getASong(user):
 
 	region = "eu-west-2"
 	table = "previousSongs"
-	endpoint = "http://localhost:8000"
+
+	endpoint = getEndpoint()
+
 	#userID = "richardx14-1" # need to look this up in future
 
 	dynamodb = setUpDB(region, endpoint)
@@ -128,23 +137,23 @@ def getASong(user):
 
 	songList = createSongList()
 
-	print("Song list before")
+	# print("Song list before")
 
 	# get previous songs
 
 	songSoFar = getItem(table, region, user, endpoint)['Item']['songSoFar']
 
-	print("Songs so far")
-	print(songSoFar)
+	# print("Songs so far")
+	# print(songSoFar)
 
 	# remove from songList
 
 	for song in songSoFar:
-		print(song)
+		print(songList)
 		songList.remove(song)
 
-	print("Songs left")
-	print(songList)
+	# print("Songs left")
+	# print(songList)
 
 	# from what is left, take one at random
 
@@ -165,6 +174,9 @@ def getASong(user):
 		return ("Madonna has run out of songs!")
 
 def setUpDB(region, endpoint=''):
+
+	endpoint = getEndpoint()
+
 	if(endpoint):
 		dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
 	else:
@@ -179,7 +191,8 @@ def addASong(user, song):
 
 	region = "eu-west-2"
 	table = "previousSongs"
-	endpoint = "http://localhost:8000"
+	endpoint = getEndpoint()
+
 	#userID = "richardx14-1" # need to look this up in future
 
 	dynamodb = setUpDB(region, endpoint)
@@ -212,7 +225,8 @@ def addASong(user, song):
 
 	# test
 
-	foo = getItem("previousSongs", "eu-west-2", "richardx14-1", "http://localhost:8000")
+	#foo = getItem("previousSongs", "eu-west-2", "richardx14-1", endpoint)
+	#foo = getItem("previousSongs", "eu-west-2", "richardx14-1")
 
 def getAllSongs():
 
@@ -228,7 +242,8 @@ def getAllMySongs(user):
 
 	region = "eu-west-2"
 	table = "previousSongs"
-	endpoint = "http://localhost:8000"
+	endpoint = getEndpoint()
+	
 	#userID = "richardx14-1" # need to look this up in future
 
 	dynamodb = setUpDB(region, endpoint)
@@ -245,7 +260,8 @@ def getMyDayCount(user):
 
 	region = "eu-west-2"
 	table = "previousSongs"
-	endpoint = "http://localhost:8000"
+	endpoint = getEndpoint()
+
 	#userID = "richardx14-1" # need to look this up in future
 
 	dynamodb = setUpDB(region, endpoint)
@@ -262,7 +278,8 @@ def resetMySongs(user):
 
 	region = "eu-west-2"
 	table = "previousSongs"
-	endpoint = "http://localhost:8000"
+	endpoint = getEndpoint()
+
 	#userID = "richardx14-1" # need to look this up in future
 
 	dynamodb = setUpDB(region, endpoint)
@@ -285,7 +302,8 @@ def createNewUser ():
 
 	region = "eu-west-2"
 	table = "previousSongs"
-	endpoint = "http://localhost:8000"
+	endpoint = getEndpoint()
+
 	user = "richardx14-1" # need to look this up in future
 
 	dynamodb = setUpDB(region, endpoint)

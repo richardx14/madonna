@@ -84,8 +84,6 @@ from madynamodb import *
 
 # new get a song set up - create table and put item
 
-#createTable('previousSongs', "eu-west-2", "http://localhost:8000" )
-
 putItem2("previousSongs", "eu-west-2", "richardx14-1", "http://localhost:8000")
 
 #foo = getItem("previousSongs", "eu-west-2", "richardx14-1", "http://localhost:8000")

@@ -274,3 +274,17 @@ def tableExists(table, region, endpoint = ''):
         print("Table exists")
     else:
         print("Table does not exist")
+
+def deleteTable(table, region, endpoint = '' ):
+
+    if(endpoint):
+        dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
+    else:
+        dynamodb = boto3.resource('dynamodb', region_name=region)
+
+    table = dynamodb.Table(table)
+
+    table.delete()
+
+    print("Table deleted.")
+
