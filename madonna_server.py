@@ -1,3 +1,5 @@
+import sys
+
 from flask import Flask, request
 from flask_restful import Resource, Api
 #from sqlalchemy import create_engine
@@ -9,6 +11,17 @@ from get_a_song import *
 
 app = Flask(__name__)
 api = Api(app)
+
+# default to port 5000 unless specified
+
+if (len(sys.argv) > 1):
+
+	portNumber = sys.argv[1]
+
+else:
+	portNumber = 5000
+
+print (portNumber)
 
 class DecimalEncoder(json.JSONEncoder):
     def default(self, o):
@@ -110,4 +123,4 @@ api.add_resource(Create_New_User, '/create_new_user')
 #     app.run(port='5002')
 
 if __name__ == '__main__':
-     app.run(host='0.0.0.0', port=5001)
+     app.run(host='0.0.0.0', port=portNumber)

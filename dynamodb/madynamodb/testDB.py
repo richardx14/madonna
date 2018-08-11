@@ -1,5 +1,7 @@
 from madynamodb import *
 
+import sys
+
 # aws dynamodb list-tables --endpoint-url=http://localhost:8000
 
 #createTable("madonnaSongs", "eu-west-2", "http://localhost:8000")
@@ -84,7 +86,7 @@ from madynamodb import *
 
 # new get a song set up - create table and put item
 
-putItem2("previousSongs", "eu-west-2", "richardx14-1", "http://localhost:8000")
+#putItem2("previousSongs", "eu-west-2", "richardx14-1", "http://localhost:8000")
 
 #foo = getItem("previousSongs", "eu-west-2", "richardx14-1", "http://localhost:8000")
 #item = foo['Item']
@@ -106,6 +108,8 @@ putItem2("previousSongs", "eu-west-2", "richardx14-1", "http://localhost:8000")
 #item = foo['Item']
 #dayCount = item['dayCount']
 #print(dayCount)
+
+print("Arg = ", sys.argv[1])
 
 
 
