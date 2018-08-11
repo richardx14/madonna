@@ -1,6 +1,6 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
-from sqlalchemy import create_engine
+#from sqlalchemy import create_engine
 from json import dumps
 from flask_jsonpify import jsonify
 from random import randint
@@ -100,7 +100,6 @@ api.add_resource(Get_My_Day_Count, '/get_my_day_count')
 api.add_resource(Reset_My_Songs, '/reset_my_songs')
 api.add_resource(Create_New_User, '/create_new_user')
 
-
 # get_all_Songs - shows all available songs
 # get_a_song - gets a song of the day (That has not been shown before)
 # get_all_my_songs - shows all of my songs to date
@@ -111,4 +110,4 @@ api.add_resource(Create_New_User, '/create_new_user')
 #     app.run(port='5002')
 
 if __name__ == '__main__':
-     app.run(host='0.0.0.0')
+     app.run(host='0.0.0.0', port=5001)

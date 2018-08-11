@@ -9,8 +9,8 @@ from dynamodb.madynamodb.madynamodb import *
 
 def getEndpoint():
 
-    endpoint_url = ''
-    #endpoint_url = "http://localhost:8000"
+    # endpoint_url = ''
+    endpoint_url = "http://localhost:8000"
 
     return(endpoint_url)
 
@@ -110,8 +110,6 @@ def deletePreviousSongsTable():
     table.delete()
 
     print("Table deleted.")
-
-
 
 
 #createTable("madonnaSongs", "eu-west-2", "http://localhost:8000")
