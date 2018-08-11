@@ -1,3 +1,4 @@
+import os
 import sys
 
 from flask import Flask, request
@@ -12,16 +13,30 @@ from get_a_song import *
 app = Flask(__name__)
 api = Api(app)
 
-# default to port 5000 unless specified
 
-if (len(sys.argv) > 1):
+#if(os.environ['PORTNUMBER'] != ''):
+
+#	portNumber = os.environ['PORTNUMBER']
+#	print ("port number by env varible = ", portNumber)
+
+#elif len(sys.argv)>1 :
+
+#	portNumber = sys.argv[1]
+#	print ("port number by argument = ", portNumber)
+
+#else:
+#	portNumber = 5000
+#	print ("port number by default = ", portNumber)
+
+
+if (len(sys.argv)>1) :
 
 	portNumber = sys.argv[1]
+	print ("port number by argument = ", portNumber)
 
 else:
 	portNumber = 5000
-
-print (portNumber)
+	print ("port number by default = ", portNumber)
 
 class DecimalEncoder(json.JSONEncoder):
     def default(self, o):
@@ -31,6 +46,9 @@ class DecimalEncoder(json.JSONEncoder):
             else:
                 return int(o)
         return super(DecimalEncoder, self).default(o)
+
+#portNumber = 5000
+#print ("port number by default = ", portNumber)
 
 # n API's
 
