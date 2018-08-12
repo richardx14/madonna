@@ -13,30 +13,61 @@ from get_a_song import *
 app = Flask(__name__)
 api = Api(app)
 
-
-#if(os.environ['PORTNUMBER'] != ''):
-
-#	portNumber = os.environ['PORTNUMBER']
-#	print ("port number by env varible = ", portNumber)
-
-#elif len(sys.argv)>1 :
-
-#	portNumber = sys.argv[1]
-#	print ("port number by argument = ", portNumber)
-
-#else:
-#	portNumber = 5000
-#	print ("port number by default = ", portNumber)
-
+ # which port to use
 
 if (len(sys.argv)>1) :
 
 	portNumber = sys.argv[1]
-	print ("port number by argument = ", portNumber)
+	print ("port number by argument =", portNumber)
 
 else:
 	portNumber = 5000
-	print ("port number by default = ", portNumber)
+	print ("port number by default =", portNumber)
+
+get_all_songs_endpoint = False
+get_a_song_endpoint = False
+get_all_my_songs_endpoint = False
+get_my_day_count_endpoint = False
+reset_my_songs_endpoint = False
+create_new_user_endpoint = False
+
+
+# which endpoints to expose
+
+if "get_all_songs_endpoint" in sys.argv:
+	get_all_songs_endpoint = True
+	print("get_all_songs_endpoint enabled")
+
+if "get_a_song_endpoint" in sys.argv:
+	get_a_song_endpoint = True
+	print("get_a_song_endpoint enabled")
+
+if "get_all_my_songs_endpoint" in sys.argv:
+	get_all_my_songs_endpoint = True
+	print("get_all_my_songs_endpoint enabled")
+
+if "get_my_day_count_endpoint" in sys.argv:
+	get_my_day_count_endpoint = True
+	print("get_my_day_count_endpoint enabled")
+
+if "reset_my_songs_endpoint" in sys.argv:
+	reset_my_songs_endpoint = True
+	print("reset_my_songs_endpoint enabled")
+
+if "create_new_user_endpoint" in sys.argv:
+	create_new_user_endpoint = True
+	print("create_new_user_endpoint enabled")
+
+
+if ((len(sys.argv) <= 2) or ("all_endpoints" in sys.argv)) :
+	get_all_songs_endpoint = True
+	get_a_song_endpoint = True
+	get_all_my_songs_endpoint = True
+	get_my_day_count_endpoint = True
+	reset_my_songs_endpoint = True
+	create_new_user_endpoint = True
+
+	print("All endpoints enabled")
 
 class DecimalEncoder(json.JSONEncoder):
     def default(self, o):
@@ -124,12 +155,24 @@ class Create_New_User(Resource):
 
 		return jsonify(createNewUser())
 
-api.add_resource(Get_All_Songs, '/get_all_songs')
-api.add_resource(Get_A_Song, '/get_a_song')
-api.add_resource(Get_All_My_Songs, '/get_all_my_songs')
-api.add_resource(Get_My_Day_Count, '/get_my_day_count')
-api.add_resource(Reset_My_Songs, '/reset_my_songs')
-api.add_resource(Create_New_User, '/create_new_user')
+
+if (get_all_songs_endpoint):
+	api.add_resource(Get_All_Songs, '/get_all_songs')
+
+if(get_a_song_endpoint):
+	api.add_resource(Get_A_Song, '/get_a_song')
+
+if(get_all_my_songs_endpoint):
+	api.add_resource(Get_All_My_Songs, '/get_all_my_songs')
+
+if (get_my_day_count_endpoint):
+	api.add_resource(Get_My_Day_Count, '/get_my_day_count')
+
+if (reset_my_songs_endpoint):
+	api.add_resource(Reset_My_Songs, '/reset_my_songs')
+
+if (create_new_user_endpoint):
+	api.add_resource(Create_New_User, '/create_new_user')
 
 # get_all_Songs - shows all available songs
 # get_a_song - gets a song of the day (That has not been shown before)

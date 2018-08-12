@@ -151,7 +151,7 @@ def getASong(user):
 	# remove from songList
 
 	for song in songSoFar:
-		print(songList)
+		#print(songList)
 		songList.remove(song)
 
 	# print("Songs left")
