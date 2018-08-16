@@ -9,8 +9,8 @@ from dynamodb.madynamodb.madynamodb import *
 
 def getEndpoint():
 
-    # endpoint_url = ''
-    endpoint_url = "http://localhost:8000"
+    endpoint_url = ''
+    #endpoint_url = "http://localhost:8000"
 
     return(endpoint_url)
 
@@ -43,6 +43,49 @@ def createPreviousSongsTable():
         AttributeDefinitions=[
             {
                 'AttributeName': 'userID',
+                'AttributeType': 'S'
+            },
+#           {
+#              'AttributeName': 'songSoFar',
+#                'AttributeType': 'S'
+#           },
+#          {
+#                'AttributeName': 'dayCount',
+#                'AttributeType': 'N'
+#            }
+
+        ],
+        ProvisionedThroughput={
+            'ReadCapacityUnits': 10,
+            'WriteCapacityUnits': 10
+        }
+    )
+
+    print("Table status:", table.table_status)
+
+def createMadonnaSongsTable():
+
+    endpoint = getEndpoint()
+    region = getRegion()
+    table = 'madonnaSongs'
+
+    if(endpoint):
+        dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
+    else:
+        dynamodb = boto3.resource('dynamodb', region_name=region)
+
+
+    table = dynamodb.create_table(
+        TableName=table,
+        KeySchema=[
+            {
+                'AttributeName': 'songID',
+                'KeyType': 'HASH'  #Partition key
+            }
+        ],
+        AttributeDefinitions=[
+            {
+                'AttributeName': 'songID',
                 'AttributeType': 'S'
             },
 #           {
@@ -111,6 +154,23 @@ def deletePreviousSongsTable():
 
     print("Table deleted.")
 
+def deleteMadonnaSongsTable():
+
+    endpoint = getEndpoint()
+    region = getRegion()
+    table = 'madonnaSongs'
+
+    if(endpoint):
+        dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
+    else:
+        dynamodb = boto3.resource('dynamodb', region_name=region)
+
+    table = dynamodb.Table(table)
+
+    table.delete()
+
+    print("Table deleted.")
+
 
 #createTable("madonnaSongs", "eu-west-2", "http://localhost:8000")
 #createTable("madonnaSongs", "eu-west-2", "http://localhost:8000")
@@ -121,5 +181,9 @@ def deletePreviousSongsTable():
 
 #deletePreviousSongsTable()
 
-createPreviousSongsTable()
+#createPreviousSongsTable()
+
+#deleteMadonnaSongsTable()
+
+createMadonnaSongsTable()
 
