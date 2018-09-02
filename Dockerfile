@@ -8,7 +8,7 @@ RUN pip3 install flask flask-jsonpify flask-restful
 
 RUN pip3 install boto3
 
-ENV CODE_REFRESHED_AT: 2018:08:12:1
+ENV CODE_REFRESHED_AT: 2018:09:02:3
 
 ADD . /60daysofmadonna
 

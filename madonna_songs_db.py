@@ -13,26 +13,6 @@ from dynamodb.madynamodb.madynamodb import *
 # show item
 # song = { ’songID’: “Vogue”, ‘writers’: “Madonna”, ‘album’:  “Vogue”, ‘year’: “1995”}
 
-def createSongList():
-
-	songs = [
-	"4 Minutes",
-	"American Life",
-	"B-Day Song",
-	"Bad Girl",
-	"Beat Goes On",
-	"Beautiful Killer",
-	"Beautiful Stranger",
-	"Bedtime Story",
-	"Best Friend",
-	"Bitch I'm Madonna",
-	"Body Shop",
-	"Borderline",
-	"Burning Up",
-	]
-
-	return(songs)
-
 def getEndpoint():
 
 	#endpoint_url = ''
@@ -40,6 +20,23 @@ def getEndpoint():
 	endpoint_url = "http://127.0.0.1:8000"
 
 	return(endpoint_url)
+
+def setUpDBTable():
+
+	#endpoint_url = ''
+	#endpoint_url = "http://localhost:8000"
+	endpoint = "http://127.0.0.1:8000"
+	region = "eu-west-2"
+
+	if(endpoint):
+		dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
+	else:
+		dynamodb = boto3.resource('dynamodb', region_name=region)
+
+	table = "madonnaSongs"
+	table = dynamodb.Table(table)
+
+	return(table)
 
 
 def setUpDB(region, endpoint=''):
@@ -55,13 +52,9 @@ def setUpDB(region, endpoint=''):
 
 def getAMadonnaSong():
 
-	region = "eu-west-2"
-	table = "madonnaSongs"
-	endpoint = getEndpoint()
-	dynamodb = setUpDB(region, endpoint)
-	table = dynamodb.Table(table)
+	table = setUpDBTable()
 
-	print("Getting a song.")
+	print("Getting a song TWO.")
 
 	response = table.get_item(
 		Key={
@@ -78,20 +71,9 @@ def getAMadonnaSong():
 	print(writers)
 
 
-
 def addASong():
 
-# variables
-
-	region = "eu-west-2"
-	table = "madonnaSongs"
-	endpoint = getEndpoint()
-	dynamodb = setUpDB(region, endpoint)
-	table = dynamodb.Table(table)
-
-	# put item back
-
-	# song = { ’songID’: “Vogue”, ‘writers’: “Madonna”, ‘album’:  “Vogue”, ‘year’: “1995”}
+	table = setUpDBTable()
 
 	songID = "Vogue"
 	writers = "Madonna"
@@ -107,48 +89,101 @@ def addASong():
 			}
 		)
 
+	songID = "True Blue"
+	writers = "Madonna"
+	album = "True Blue"
+	year = "1995"
+
+	response = table.put_item(
+		Item={
+			'songID' : songID,
+			'writers': writers,
+			'album' : album,
+			'year' : year
+			}
+		)
+
+	songID = "Holiday"
+	writers = "Madonna"
+	album = "Madonna"
+	year = "1983"
+
+	response = table.put_item(
+		Item={
+			'songID' : songID,
+			'writers': writers,
+			'album' : album,
+			'year' : year
+			}
+		)
+
+	songID = "Lucky Star"
+	writers = "Madonna"
+	album = "Madonna"
+	year = "1983"
+
+	response = table.put_item(
+	Item={
+		'songID' : songID,
+		'writers': writers,
+		'album' : album,
+		'year' : year
+		}
+	)
+
 	print("addASong succeeded:")
 
 
 def getAllMadonnaSongs():
 
-# variables
-
-	region = "eu-west-2"
-	table = "madonnaSongs"
-	endpoint = getEndpoint()
-	dynamodb = setUpDB(region, endpoint)
-	table = dynamodb.Table(table)
+	table = setUpDBTable()
 
 	allSongs = table.scan()
 
-	print(allSongs)
-
+	count = 0
 	for i in allSongs:
+		count = count+1
+		print(count)
 		print(i)
 
-def getMyDayCount(user):
+	print("No of items on line below")
+	print(table.item_count)
 
-# variables
+def getAttributeForSong(songID, attribute):
 
-	region = "eu-west-2"
-	table = "previousSongs"
-	endpoint = getEndpoint()
+	table = setUpDBTable()
 
-	#userID = "richardx14-1" # need to look this up in future
+	response = table.get_item(
+		Key={
+			'songID' : songID
+			}
+		)
 
-	dynamodb = setUpDB(region, endpoint)
+	if response == '':
+		attribute = "Attribute not found"
+	else:
+		attribute = response['Item'][attribute]
 
-	dayCount = getItem(table, region, user, endpoint)['Item']['dayCount']
+	return(attribute)
 
-	print("get my day count succeeded:")
-
-	return(str(dayCount))
-
+#################
 
 addASong()
 getAMadonnaSong()
 getAllMadonnaSongs()
+
+print(getAttributeForSong("Vogue", "album") )
+
+print(getAttributeForSong("Vogue", "writers") )
+
+print(getAttributeForSong("Vogue", "year") )
+
+#print(getAttributeForSong("Vogue", "nonsense"))
+
+#print(getAttributeForSong("Vogusdfasdgfdfg", "nonsense"))
+
+
+
 
 
 
