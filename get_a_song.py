@@ -5,7 +5,7 @@ import json
 import decimal
 from boto3.dynamodb.conditions import Key, Attr
 from botocore.exceptions import ClientError
-from dynamodb.madynamodb.madynamodb import *
+#from dynamodb.madynamodb.madynamodb import *
 
 # get a song
 # get list from item
@@ -14,6 +14,15 @@ from dynamodb.madynamodb.madynamodb import *
 # write item back to db
 # show db item
 
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, decimal.Decimal):
+            if abs(o) % 1 > 0:
+                return float(o)
+            else:
+                return int(o)
+        return super(DecimalEncoder, self).default(o)
+        
 def createSongList():
 
 	songs = [
@@ -117,14 +126,16 @@ def createSongList():
 
 def getEndpoint():
 
-	endpoint_url = ''
+	#endpoint_url = ''
 	#endpoint_url = "http://localhost:8000"
-	#endpoint_url = "http://127.0.0.1:8000"
+	endpoint_url = "http://127.0.0.1:8000"
 
 
 	return(endpoint_url)
 
 def getASong(user):
+
+	print("Getting a song.")
 
 	region = "eu-west-2"
 	table = "previousSongs"
@@ -135,29 +146,12 @@ def getASong(user):
 
 	dynamodb = setUpDB(region, endpoint)
 
-	print("Getting a song.")
-
 	songList = createSongList()
-
-	# print("Song list before")
-
-	# get previous songs
 
 	songSoFar = getItem(table, region, user, endpoint)['Item']['songSoFar']
 
-	# print("Songs so far")
-	# print(songSoFar)
-
-	# remove from songList
-
 	for song in songSoFar:
-		#print(songList)
 		songList.remove(song)
-
-	# print("Songs left")
-	# print(songList)
-
-	# from what is left, take one at random
 
 	if songList:
 		foo2 = randint(0,len(songList)-1 )
@@ -324,3 +318,26 @@ def createNewUser ():
 
 	return(response)
 
+def getItem(table, region, userID, endpoint = ''):
+
+    if(endpoint):
+        dynamodb = boto3.resource('dynamodb', region_name=region, endpoint_url=endpoint)
+    else:
+        dynamodb = boto3.resource('dynamodb', region_name=region)
+
+    table = dynamodb.Table(table)
+
+    try:
+        response = table.get_item(
+            Key={
+                'userID': userID
+            }
+        )
+    except ClientError as e:
+        print(e.response['Error']['Message'])
+    else:
+        item = response['Item']
+        print("GetItem succeeded:")
+        print(json.dumps(item, indent=4, cls=DecimalEncoder))
+
+    return(response)

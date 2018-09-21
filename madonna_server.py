@@ -155,6 +155,12 @@ class Create_New_User(Resource):
 
 		return jsonify(createNewUser())
 
+class Get_Health(Resource):
+
+	def get(self):
+
+		return jsonify("Health = OK")
+
 
 if (get_all_songs_endpoint):
 	api.add_resource(Get_All_Songs, '/get_all_songs')
@@ -173,6 +179,10 @@ if (reset_my_songs_endpoint):
 
 if (create_new_user_endpoint):
 	api.add_resource(Create_New_User, '/create_new_user')
+
+# Health
+
+api.add_resource(Get_Health,'/')
 
 # get_all_Songs - shows all available songs
 # get_a_song - gets a song of the day (That has not been shown before)
