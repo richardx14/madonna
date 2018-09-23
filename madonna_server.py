@@ -8,7 +8,8 @@ from json import dumps
 from flask_jsonpify import jsonify
 from random import randint
 
-from get_a_song import *
+#from get_a_song import *
+from madonna_methods import *
 
 app = Flask(__name__)
 api = Api(app)
